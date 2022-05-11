@@ -50,32 +50,29 @@
     - [ ] Else rightOperand = removeLast(rightOperand)
   - [ ] displayTopLabels()
   - [ ] displayAnswer()
-
-## - [ ] When % is clicked
-
-    - [ ] If isFreshStart()
-        - [ ] return
-    - [ ] If hasLeftOperandOnly()
-        - [ ] If leftOperand.endsWith(“.”)
-            - [ ] leftOperand = removeLast(leftOperand)
-        - [ ] If percentSignForLeftOperand
-            - [ ] return
-        - [ ] percentSignForLeftOperand = true
-    - [ ] If hasLeftOperandAndOperatorOnly()
-        - [ ] return
-    - [ ] If hasLeftOperandAndOperatorAndRightOperand()
-        - [ ] If rightOperand.endsWith(“.”)
-            - [ ] rightOperand = removeLast(rightOperand)
-        - [ ] If percentSignForRightOperand
-            - [ ] return
-        - [ ] Accumulator = operate(operator, leftOperand, rightOperand)
-        - [ ] leftOperand = accumulator
-        - [ ] percentSignForLeftOperand = true
-        - [ ] rightOperand = “”
-        - [ ] Operator = “%”
-    - [ ] displayTopLabels()
-    - [ ] displayAnswer()
-
+- [ ] When % is clicked
+  - [ ] If isFreshStart()
+    - [ ] return
+  - [ ] If hasLeftOperandOnly()
+    - [ ] If leftOperand.endsWith(“.”)
+      - [ ] leftOperand = removeLast(leftOperand)
+    - [ ] If percentSignForLeftOperand
+      - [ ] return
+    - [ ] percentSignForLeftOperand = true
+  - [ ] If hasLeftOperandAndOperatorOnly()
+    - [ ] return
+  - [ ] If hasLeftOperandAndOperatorAndRightOperand()
+    - [ ] If rightOperand.endsWith(“.”)
+      - [ ] rightOperand = removeLast(rightOperand)
+    - [ ] If percentSignForRightOperand
+      - [ ] return
+    - [ ] Accumulator = operate(operator, leftOperand, rightOperand)
+    - [ ] leftOperand = accumulator
+    - [ ] percentSignForLeftOperand = true
+    - [ ] rightOperand = “”
+    - [ ] Operator = “%”
+  - [ ] displayTopLabels()
+  - [ ] displayAnswer()
 - [ ] When +/- is clicked
   - [ ] If isFreshStart()
     - [ ] return
