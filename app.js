@@ -111,21 +111,3 @@ const displayNumber = digit => {
 		rightOpererand = bottomDisplay.textContent;
 	}
 };
-
-// Event listeners
-digits.forEach(el => {
-	el.addEventListener("click", e => {
-		displayNumber(e.target.dataset.digit);
-	});
-});
-
-operators.forEach(el => {
-	el.addEventListener("click", e => {
-		operatorSelected = true;
-		operator = e.target.dataset.operator;
-		bottomDisplay.textContent = "";
-		console.log(operatorSelected, operator);
-		console.log("leftOP", leftOperand);
-		console.log("rightOP", rightOpererand);
-	});
-});
