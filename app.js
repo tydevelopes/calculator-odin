@@ -101,4 +101,38 @@ const operatorEls = document.querySelectorAll(".operator");
 const clearAllEl = document.querySelector(".clear-all");
 const clearEntryEl = document.querySelector(".clear-entry");
 const dotEl = document.querySelector(".dot");
-const resultsEl = document.querySelector(".results");
+const calcEl = document.querySelector(".calc");
+const toggleSignEl = document.querySelector(".toggle-sign");
+
+// Event Listeners
+digitEls.forEach(digitEl => {
+	digitEl.addEventListener("click", e => {
+		console.log(e.target);
+	});
+});
+
+operatorEls.forEach(operatorEl => {
+	operatorEl.addEventListener("click", e => {
+		console.log(e.target);
+	});
+});
+
+clearAllEl.addEventListener("click", e => {
+	console.log(e.target);
+});
+
+clearEntryEl.addEventListener("click", e => {
+	console.log(e.target);
+});
+
+dotEl.addEventListener("click", e => {
+	console.log(e.target);
+});
+
+calcEl.addEventListener("click", e => {
+	console.log(e.target);
+});
+
+toggleSignEl.addEventListener("click", e => {
+	console.log(e.target);
+});
