@@ -1,50 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
-  <title>Calculator</title>
-</head>
-<body>
-  <div class="container">
-    <div class="displays">
-      <div class="row row-1">47679+76</div>
-      <div class="row row-2">6</div>
-    </div>
-    <div class="keys">
-      <div class="row row-1">
-        <span class="clear" data-clear="C">C</span>
-        <span class="clear" data-clearentry="CE">CE</span>
-        <span class="operator" data-modulus="%">%</span>
-        <span class="operator" data-divide="/">/</span>
-      </div>
-      <div class="row row-2">
-        <span data-seven="7">7</span>
-        <span data-eigth="8">8</span>
-        <span data-nine="9">9</span>
-        <span class="operator" data-multiply="*">*</span>
-      </div>
-      <div class="row row-3">
-        <span data-four="4">4</span>
-        <span data-five="5">5</span>
-        <span data-six="6">6</span>
-        <span class="operator" data-minus="-">-</span>
-      </div>
-      <div class="row row-4">
-        <span data-one="1">1</span>
-        <span data-two="2">2</span>
-        <span data-three="3">3</span>
-        <span class="operator" data-plus="+">+</span>
-      </div>
-      <div class="row row-5">
-        <span data-negate="+/-">+/-</span>
-        <span data-zero="0">0</span>
-        <span data-dot=".">.</span>
-        <span class="result" data-result="=">=</span>
-      </div>
-    </div>
-  </div>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="styles.css" />
+		<title>Calculator</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="displays">
+				<div class="row row-1"></div>
+				<div class="row row-2">0</div>
+			</div>
+			<div class="keys">
+				<div class="row row-1">
+					<span class="clear" data-clear="C">C</span>
+					<span class="clear" data-clearentry="CE">CE</span>
+					<span class="operator" data-operator="%">%</span>
+					<span class="operator" data-operator="/">/</span>
+				</div>
+				<div class="row row-2">
+					<span class="digit" data-digit="7">7</span>
+					<span class="digit" data-digit="8">8</span>
+					<span class="digit" data-digit="9">9</span>
+					<span class="operator" data-operator="*">*</span>
+				</div>
+				<div class="row row-3">
+					<span class="digit" data-digit="4">4</span>
+					<span class="digit" data-digit="5">5</span>
+					<span class="digit" data-digit="6">6</span>
+					<span class="operator" data-operator="-">-</span>
+				</div>
+				<div class="row row-4">
+					<span class="digit" data-digit="1">1</span>
+					<span class="digit" data-digit="2">2</span>
+					<span class="digit" data-digit="3">3</span>
+					<span class="operator" data-operator="+">+</span>
+				</div>
+				<div class="row row-5">
+					<span data-negate="+/-">+/-</span>
+					<span class="digit" data-digit="0">0</span>
+					<span data-dot=".">.</span>
+					<span class="result" data-result="=">=</span>
+				</div>
+			</div>
+		</div>
+		<script src="app.js"></script>
+	</body>
 </html>
