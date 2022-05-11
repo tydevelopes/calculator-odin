@@ -94,20 +94,11 @@ const displayTopLabels = () => {
 const displayAnswer = () => accumulator;
 
 // References to html elements
-const topDisplay = document.querySelector(".displays .row-1");
-const bottomDisplay = document.querySelector(".displays .row-2");
-const digits = document.querySelectorAll(".digit");
-const operators = document.querySelectorAll(".operator");
-
-const displayNumber = digit => {
-	if (bottomDisplay.textContent === "0") {
-		bottomDisplay.textContent = digit;
-	} else {
-		bottomDisplay.textContent += digit;
-	}
-	if (!operatorSelected) {
-		leftOperand = bottomDisplay.textContent;
-	} else {
-		rightOpererand = bottomDisplay.textContent;
-	}
-};
+const topDisplayEl = document.querySelector(".displays .row-1");
+const bottomDisplayEl = document.querySelector(".displays .row-2");
+const digitEls = document.querySelectorAll(".digit");
+const operatorEls = document.querySelectorAll(".operator");
+const clearAllEl = document.querySelector(".clear-all");
+const clearEntryEl = document.querySelector(".clear-entry");
+const dotEl = document.querySelector(".dot");
+const resultsEl = document.querySelector(".results");
