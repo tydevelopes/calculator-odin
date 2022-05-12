@@ -78,7 +78,8 @@ body {
 .clear-entry {
 	color: rgb(170, 71, 71);
 }
-.operator {
+.operator,
+.percent {
 	color: rgb(85, 185, 85);
 }
 span.result {

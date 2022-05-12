@@ -16,6 +16,7 @@ const clearEntryEl = document.querySelector(".clear-entry");
 const dotEl = document.querySelector(".dot");
 const calcEl = document.querySelector(".calc");
 const toggleSignEl = document.querySelector(".toggle-sign");
+const percentEl = document.querySelector(".percent");
 
 const testPrint = () => {
 	console.log("leftOperand: ", leftOperand);
@@ -166,6 +167,10 @@ clearEntryEl.addEventListener("click", e => {
 		}
 	}
 	display();
+});
+
+percentEl.addEventListener("click", e => {
+	console.log(e.target);
 });
 
 dotEl.addEventListener("click", e => {
