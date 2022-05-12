@@ -79,13 +79,13 @@ const modulus = (a, b) => a % b;
 const operate = (operator, leftOperand, rightOperand) => {
 	switch (operator) {
 		case "+":
-			return add(leftOperand, rightOperand);
+			return add(leftOperand, rightOperand).toString();
 			break;
 		case "-":
-			return subtract(leftOperand, rightOperand);
+			return subtract(leftOperand, rightOperand).toString();
 			break;
 		case "*":
-			return multiply(leftOperand, rightOperand);
+			return multiply(leftOperand, rightOperand).toString();
 			break;
 		case "/":
 			if (rightOperand === 0) {
@@ -122,18 +122,22 @@ const display = () => {
 };
 
 // Event Listeners
+
+// LOGIC FOR DIGITS
 digitEls.forEach(digitEl => {
 	digitEl.addEventListener("click", e => {
 		console.log(e.target);
 	});
 });
 
+// LOGIC FOR OPERATORS
 operatorEls.forEach(operatorEl => {
 	operatorEl.addEventListener("click", e => {
 		console.log(e.target);
 	});
 });
 
+// LOGIC FOR CLEAR ALL
 clearAllEl.addEventListener("click", e => {
 	// testPrint();
 	if (isFreshStart()) {
@@ -144,6 +148,7 @@ clearAllEl.addEventListener("click", e => {
 	display();
 });
 
+// LOGIC FOR CLEAR ENTRY
 clearEntryEl.addEventListener("click", e => {
 	if (isFreshStart()) {
 		console.log("Nothing to clear");
@@ -166,28 +171,68 @@ clearEntryEl.addEventListener("click", e => {
 			rightOperand = removeLast(rightOperand);
 		}
 	}
+	testPrint();
 	display();
 });
 
+// LOGIC FOR %
 percentEl.addEventListener("click", e => {
-	console.log(e.target);
+	if (isFreshStart()) {
+		console.log("Nothing to clear");
+		return;
+	}
+	if (hasLeftOperandOnly()) {
+		if (leftOperand.endsWith(".")) {
+			leftOperand = removeLast(leftOperand);
+		}
+		if (percentSignForLeftOperand) {
+			console.log("Percent sign already exist");
+			return;
+		}
+		percentSignForLeftOperand = true;
+	}
+	if (hasLeftOperandAndOperatorOnly()) {
+		console.log("cannot add % to an operator");
+		return;
+	}
+	if (hasLeftOperandAndOperatorAndRightOperand()) {
+		if (percentSignForRightOperand) {
+			console.log("Percent sign already exist");
+			testPrint();
+			return;
+		}
+		if (rightOperand.endsWith(".")) {
+			rightOperand = removeLast(rightOperand);
+		}
+		accumulator = operate(operator, Number(leftOperand), Number(rightOperand));
+		leftOperand = accumulator;
+		percentSignForLeftOperand = true;
+		rightOperand = "";
+		operator = "";
+		accumulator = "";
+	}
+	testPrint();
+	display();
 });
 
+// LOGIC FOR DOT
 dotEl.addEventListener("click", e => {
 	console.log(e.target);
 });
 
+// LOGIC FOR =
 calcEl.addEventListener("click", e => {
 	console.log(e.target);
 });
 
+// LOGIC FOR +/-
 toggleSignEl.addEventListener("click", e => {
 	console.log(e.target);
 });
 
 // test data
 const leftOperandOnlyWithoutPercent = () => {
-	leftOperand = "444";
+	leftOperand = "444.";
 	rightOperand = "";
 	operator = "";
 	accumulator = "";
@@ -195,7 +240,7 @@ const leftOperandOnlyWithoutPercent = () => {
 	percentSignForRightOperand = false;
 };
 const leftOperandOnlyWithPercent = () => {
-	leftOperand = "444";
+	leftOperand = "444.";
 	rightOperand = "";
 	operator = "";
 	accumulator = "";
@@ -212,19 +257,19 @@ const leftOperandAndOperatorOnly = () => {
 };
 
 const leftAndOperatorAndRightAndWithoutRightPercent = () => {
-	leftOperand = "444";
-	rightOperand = "453";
+	leftOperand = "444.";
+	rightOperand = "453.";
 	operator = "-";
 	accumulator = "";
 	percentSignForLeftOperand = false;
 	percentSignForRightOperand = false;
 };
 const leftAndOperatorAndRightAndWithRightPercent = () => {
-	leftOperand = "444";
-	rightOperand = "454";
-	operator = "-";
+	leftOperand = "44";
+	rightOperand = "45.";
+	operator = "+";
 	accumulator = "";
-	percentSignForLeftOperand = true;
+	percentSignForLeftOperand = false;
 	percentSignForRightOperand = true;
 };
 
