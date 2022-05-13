@@ -1,10 +1,10 @@
 // Variables
-let leftOperand = "s";
-let rightOperand = "r";
-let operator = "+";
-let accumulator = "4";
+let leftOperand = "";
+let rightOperand = "";
+let operator = "";
+let accumulator = "";
 let percentSignForLeftOperand = false;
-let percentSignForRightOperand = true;
+let percentSignForRightOperand = false;
 
 // References to html elements
 const topDisplayEl = document.querySelector(".displays .row-1");
@@ -119,6 +119,7 @@ const displayAnswer = () => {
 const display = () => {
 	displayTopLabels();
 	displayAnswer();
+	testPrint();
 };
 
 // Event Listeners
@@ -143,7 +144,7 @@ digitEls.forEach(digitEl => {
 				rightOperand = e.currentTarget.dataset.digit;
 				operator = "%";
 				percentSignForLeftOperand = false;
-			} else if (leftOperand.startsWith("0")) {
+			} else if (leftOperand.startsWith("0") && !leftOperand.endsWith(".") && leftOperand.length === 1) {
 				leftOperand = "";
 				leftOperand += e.currentTarget.dataset.digit;
 			} else {
@@ -158,7 +159,7 @@ digitEls.forEach(digitEl => {
 			return;
 		}
 		if (hasLeftOperandAndOperatorAndRightOperand()) {
-			if (rightOperand.startsWith("0")) {
+			if (rightOperand.startsWith("0") && !rightOperand.endsWith(".") && rightOperand.length === 1) {
 				rightOperand = "";
 				rightOperand += e.currentTarget.dataset.digit;
 			} else {
@@ -216,7 +217,6 @@ operatorEls.forEach(operatorEl => {
 
 // LOGIC FOR CLEAR ALL
 clearAllEl.addEventListener("click", e => {
-	// testPrint();
 	if (isFreshStart()) {
 		console.log("Nothing to clear");
 		return;
@@ -248,7 +248,6 @@ clearEntryEl.addEventListener("click", e => {
 			rightOperand = removeLast(rightOperand);
 		}
 	}
-	testPrint();
 	display();
 });
 
@@ -295,7 +294,6 @@ percentEl.addEventListener("click", e => {
 		operator = "";
 		accumulator = "";
 	}
-	testPrint();
 	display();
 });
 
@@ -427,50 +425,6 @@ toggleSignEl.addEventListener("click", e => {
 	display();
 });
 
-// test data
-const leftOperandOnlyWithoutPercent = () => {
-	leftOperand = "4";
-	rightOperand = "4";
-	operator = "%";
-	accumulator = "";
-	percentSignForLeftOperand = false;
-	percentSignForRightOperand = false;
-};
-const leftOperandOnlyWithPercent = () => {
-	leftOperand = "444.";
-	rightOperand = "";
-	operator = "";
-	accumulator = "";
-	percentSignForLeftOperand = false;
-	percentSignForRightOperand = false;
-};
-const leftOperandAndOperatorOnly = () => {
-	leftOperand = "444";
-	rightOperand = "";
-	operator = "+";
-	accumulator = "";
-	percentSignForLeftOperand = false;
-	percentSignForRightOperand = false;
-};
-
-const leftAndOperatorAndRightAndWithoutRightPercent = () => {
-	leftOperand = "444.";
-	rightOperand = "453.";
-	operator = "-";
-	accumulator = "";
-	percentSignForLeftOperand = false;
-	percentSignForRightOperand = false;
-};
-const leftAndOperatorAndRightAndWithRightPercent = () => {
-	leftOperand = "44";
-	rightOperand = "45.";
-	operator = "+";
-	accumulator = "";
-	percentSignForLeftOperand = false;
-	percentSignForRightOperand = true;
-};
-
 document.addEventListener("DOMContentLoaded", () => {
-	leftOperandOnlyWithoutPercent();
 	display();
 });
