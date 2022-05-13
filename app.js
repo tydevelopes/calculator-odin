@@ -133,7 +133,43 @@ digitEls.forEach(digitEl => {
 // LOGIC FOR OPERATORS
 operatorEls.forEach(operatorEl => {
 	operatorEl.addEventListener("click", e => {
-		console.log(e.target);
+		if (isFreshStart()) {
+			console.log("need to number before an operator");
+			return;
+		}
+		if (accumulator) {
+			leftOperand = accumulator;
+			accumulator = "";
+		}
+		if (hasLeftOperandOnly()) {
+			if (leftOperand.endsWith(".")) {
+				leftOperand = removeLast(leftOperand);
+			}
+			if (percentSignForLeftOperand) {
+				leftOperand = calcPercentage(leftOperand);
+				percentSignForLeftOperand = false;
+			}
+			operator = e.currentTarget.dataset.operator;
+		}
+		if (hasLeftOperandAndOperatorOnly()) {
+			operator = e.currentTarget.dataset.operator;
+		}
+		if (hasLeftOperandAndOperatorAndRightOperand()) {
+			if (rightOperand.endsWith(".")) {
+				rightOperand = removeLast(rightOperand);
+			}
+			// will never have a right operand percent after functionaly completed - to be deleted
+			if (percentSignForRightOperand) {
+				rightOperand = calcPercentage(rightOperand);
+				percentSignForRightOperand = false;
+			}
+			accumulator = operate(operator, Number(leftOperand), Number(rightOperand));
+			leftOperand = accumulator;
+			rightOperand = "";
+			operator = e.currentTarget.dataset.operator;
+		}
+
+		display();
 	});
 });
 
@@ -178,7 +214,7 @@ clearEntryEl.addEventListener("click", e => {
 // LOGIC FOR %
 percentEl.addEventListener("click", e => {
 	if (isFreshStart()) {
-		console.log("Nothing to clear");
+		console.log("need to number before an operator");
 		return;
 	}
 	if (accumulator) {
@@ -197,9 +233,10 @@ percentEl.addEventListener("click", e => {
 		percentSignForLeftOperand = true;
 	}
 	if (hasLeftOperandAndOperatorOnly()) {
-		console.log("cannot add % to an operator");
-		display();
-		return;
+		// % will initially work as an operator
+		operator = e.currentTarget.dataset.percent;
+		// display();
+		// return;
 	}
 	if (hasLeftOperandAndOperatorAndRightOperand()) {
 		if (percentSignForRightOperand) {
@@ -353,7 +390,7 @@ toggleSignEl.addEventListener("click", e => {
 const leftOperandOnlyWithoutPercent = () => {
 	leftOperand = "4";
 	rightOperand = "4";
-	operator = "+";
+	operator = "%";
 	accumulator = "";
 	percentSignForLeftOperand = false;
 	percentSignForRightOperand = false;
