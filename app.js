@@ -126,7 +126,47 @@ const display = () => {
 // LOGIC FOR DIGITS
 digitEls.forEach(digitEl => {
 	digitEl.addEventListener("click", e => {
-		console.log(e.target);
+		if (isFreshStart()) {
+			leftOperand = e.currentTarget.dataset.digit;
+			display();
+			return;
+		}
+		if (accumulator) {
+			// leftOperand = accumulator;
+			accumulator = "";
+			leftOperand = e.currentTarget.dataset.digit;
+			display();
+			return;
+		}
+		if (hasLeftOperandOnly()) {
+			if (percentSignForLeftOperand) {
+				rightOperand = e.currentTarget.dataset.digit;
+				operator = "%";
+				percentSignForLeftOperand = false;
+			} else if (leftOperand.startsWith("0")) {
+				leftOperand = "";
+				leftOperand += e.currentTarget.dataset.digit;
+			} else {
+				leftOperand += e.currentTarget.dataset.digit;
+			}
+			display();
+			return;
+		}
+		if (hasLeftOperandAndOperatorOnly()) {
+			rightOperand = e.currentTarget.dataset.digit;
+			display();
+			return;
+		}
+		if (hasLeftOperandAndOperatorAndRightOperand()) {
+			if (rightOperand.startsWith("0")) {
+				rightOperand = "";
+				rightOperand += e.currentTarget.dataset.digit;
+			} else {
+				rightOperand += e.currentTarget.dataset.digit;
+			}
+		}
+
+		display();
 	});
 });
 
@@ -167,6 +207,7 @@ operatorEls.forEach(operatorEl => {
 			leftOperand = accumulator;
 			rightOperand = "";
 			operator = e.currentTarget.dataset.operator;
+			accumulator = "";
 		}
 
 		display();
