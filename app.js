@@ -66,7 +66,7 @@ const removeLast = str => {
 };
 
 const toggleSign = operand => {
-	return operand * -1;
+	return `${operand * -1}`;
 };
 
 const add = (a, b) => a + b;
@@ -92,10 +92,10 @@ const operate = (operator, leftOperand, rightOperand) => {
 				rightOperand = "";
 				return "Cannot divide by zero";
 			}
-			return divide(leftOperand, rightOperand);
+			return divide(leftOperand, rightOperand).toString();
 			break;
 		case "%":
-			return modulus(leftOperand, rightOperand);
+			return modulus(leftOperand, rightOperand).toString();
 			break;
 		default:
 			return null;
@@ -103,7 +103,7 @@ const operate = (operator, leftOperand, rightOperand) => {
 };
 
 const calcPercentage = operand => {
-	return operand / 100;
+	return `${operand / 100}`;
 };
 
 const displayTopLabels = () => {
@@ -227,14 +227,45 @@ calcEl.addEventListener("click", e => {
 
 // LOGIC FOR +/-
 toggleSignEl.addEventListener("click", e => {
-	console.log(e.target);
+	if (isFreshStart()) {
+		console.log("Nothing to clear");
+		return;
+	}
+	if (hasLeftOperandOnly()) {
+		if (leftOperand.endsWith(".")) {
+			leftOperand = removeLast(leftOperand);
+		}
+		if (percentSignForLeftOperand) {
+			leftOperand = calcPercentage(leftOperand);
+			console.log(typeof leftOperand);
+			percentSignForLeftOperand = false;
+		}
+		leftOperand = toggleSign(leftOperand);
+	}
+	if (hasLeftOperandAndOperatorOnly()) {
+		console.log("cannot change sign of operator");
+		return;
+	}
+	if (hasLeftOperandAndOperatorAndRightOperand()) {
+		if (rightOperand.endsWith(".")) {
+			rightOperand = removeLast(rightOperand);
+		}
+		// this if below will never happen after functionaly completed
+		if (percentSignForRightOperand) {
+			rightOperand = calcPercentage(rightOperand);
+			percentSignForRightOperand = false;
+		}
+		rightOperand = toggleSign(rightOperand);
+	}
+
+	display();
 });
 
 // test data
 const leftOperandOnlyWithoutPercent = () => {
 	leftOperand = "444.";
-	rightOperand = "";
-	operator = "";
+	rightOperand = "4";
+	operator = "+";
 	accumulator = "";
 	percentSignForLeftOperand = false;
 	percentSignForRightOperand = false;
@@ -244,7 +275,7 @@ const leftOperandOnlyWithPercent = () => {
 	rightOperand = "";
 	operator = "";
 	accumulator = "";
-	percentSignForLeftOperand = true;
+	percentSignForLeftOperand = false;
 	percentSignForRightOperand = false;
 };
 const leftOperandAndOperatorOnly = () => {
@@ -252,7 +283,7 @@ const leftOperandAndOperatorOnly = () => {
 	rightOperand = "";
 	operator = "+";
 	accumulator = "";
-	percentSignForLeftOperand = true;
+	percentSignForLeftOperand = false;
 	percentSignForRightOperand = false;
 };
 
@@ -274,6 +305,6 @@ const leftAndOperatorAndRightAndWithRightPercent = () => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-	leftAndOperatorAndRightAndWithRightPercent();
+	leftOperandOnlyWithoutPercent();
 	display();
 });
