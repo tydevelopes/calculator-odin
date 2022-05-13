@@ -181,24 +181,30 @@ percentEl.addEventListener("click", e => {
 		console.log("Nothing to clear");
 		return;
 	}
+	if (accumulator) {
+		leftOperand = accumulator;
+		accumulator = "";
+	}
 	if (hasLeftOperandOnly()) {
 		if (leftOperand.endsWith(".")) {
 			leftOperand = removeLast(leftOperand);
 		}
 		if (percentSignForLeftOperand) {
 			console.log("Percent sign already exist");
+			display();
 			return;
 		}
 		percentSignForLeftOperand = true;
 	}
 	if (hasLeftOperandAndOperatorOnly()) {
 		console.log("cannot add % to an operator");
+		display();
 		return;
 	}
 	if (hasLeftOperandAndOperatorAndRightOperand()) {
 		if (percentSignForRightOperand) {
 			console.log("Percent sign already exist");
-			testPrint();
+			display();
 			return;
 		}
 		if (rightOperand.endsWith(".")) {
@@ -217,16 +223,24 @@ percentEl.addEventListener("click", e => {
 
 // LOGIC FOR DOT
 dotEl.addEventListener("click", e => {
+	console.log(leftOperand);
 	if (isFreshStart()) {
 		leftOperand = "0.";
 	}
+	if (accumulator) {
+		leftOperand = accumulator;
+		accumulator = "";
+	}
+	console.log(leftOperand);
 	if (hasLeftOperandOnly()) {
 		if (leftOperand.includes(".")) {
 			console.log("Decimal point already exist");
+			display();
 			return;
 		}
 		if (percentSignForLeftOperand) {
 			console.log("Cannot add decimal point to number with %");
+			display();
 			return;
 		}
 		if (!leftOperand.includes(".") && !percentSignForLeftOperand) {
@@ -239,10 +253,12 @@ dotEl.addEventListener("click", e => {
 	// will never have a right operand percent after functionaly completed - to be deleted
 	if (rightOperand.includes(".")) {
 		console.log("Decimal point already exist");
+		display();
 		return;
 	}
 	if (percentSignForRightOperand) {
 		console.log("Cannot add decimal point to number with %");
+		display();
 		return;
 	}
 	if (hasLeftOperandAndOperatorAndRightOperand()) {
@@ -256,7 +272,40 @@ dotEl.addEventListener("click", e => {
 
 // LOGIC FOR =
 calcEl.addEventListener("click", e => {
-	console.log(e.target);
+	if (isFreshStart()) {
+		console.log("No values to calculate");
+		return;
+	}
+	if (hasLeftOperandAndOperatorOnly()) {
+		console.log("Cannot calculate with right operand missing");
+		display();
+		return;
+	}
+	if (hasLeftOperandOnly()) {
+		if (percentSignForLeftOperand) {
+			accumulator = calcPercentage(leftOperand);
+			leftOperand = "";
+			// leftOperand = accumulator;
+			percentSignForLeftOperand = false;
+		} else {
+			console.log("cannot perform calculation with only left operand");
+			display();
+			return;
+		}
+	}
+	if (hasLeftOperandAndOperatorAndRightOperand()) {
+		// will never have a right operand percent after functionaly completed - to be deleted
+		if (percentSignForRightOperand) {
+			rightOperand = calcPercentage(rightOperand);
+			percentSignForRightOperand = false;
+		}
+		accumulator = operate(operator, Number(leftOperand), Number(rightOperand));
+		leftOperand = "";
+		rightOperand = "";
+		operator = "";
+	}
+
+	display();
 });
 
 // LOGIC FOR +/-
@@ -264,6 +313,10 @@ toggleSignEl.addEventListener("click", e => {
 	if (isFreshStart()) {
 		console.log("Nothing to clear");
 		return;
+	}
+	if (accumulator) {
+		leftOperand = accumulator;
+		accumulator = "";
 	}
 	if (hasLeftOperandOnly()) {
 		if (leftOperand.endsWith(".")) {
@@ -278,6 +331,7 @@ toggleSignEl.addEventListener("click", e => {
 	}
 	if (hasLeftOperandAndOperatorOnly()) {
 		console.log("cannot change sign of operator");
+		display();
 		return;
 	}
 	if (hasLeftOperandAndOperatorAndRightOperand()) {
@@ -297,12 +351,12 @@ toggleSignEl.addEventListener("click", e => {
 
 // test data
 const leftOperandOnlyWithoutPercent = () => {
-	leftOperand = "444";
-	rightOperand = "3";
+	leftOperand = "4";
+	rightOperand = "4";
 	operator = "+";
 	accumulator = "";
 	percentSignForLeftOperand = false;
-	percentSignForRightOperand = true;
+	percentSignForRightOperand = false;
 };
 const leftOperandOnlyWithPercent = () => {
 	leftOperand = "444.";
