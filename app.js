@@ -217,7 +217,41 @@ percentEl.addEventListener("click", e => {
 
 // LOGIC FOR DOT
 dotEl.addEventListener("click", e => {
-	console.log(e.target);
+	if (isFreshStart()) {
+		leftOperand = "0.";
+	}
+	if (hasLeftOperandOnly()) {
+		if (leftOperand.includes(".")) {
+			console.log("Decimal point already exist");
+			return;
+		}
+		if (percentSignForLeftOperand) {
+			console.log("Cannot add decimal point to number with %");
+			return;
+		}
+		if (!leftOperand.includes(".") && !percentSignForLeftOperand) {
+			leftOperand += ".";
+		}
+	}
+	if (hasLeftOperandAndOperatorOnly()) {
+		rightOperand = "0.";
+	}
+	// will never have a right operand percent after functionaly completed - to be deleted
+	if (rightOperand.includes(".")) {
+		console.log("Decimal point already exist");
+		return;
+	}
+	if (percentSignForRightOperand) {
+		console.log("Cannot add decimal point to number with %");
+		return;
+	}
+	if (hasLeftOperandAndOperatorAndRightOperand()) {
+		if (!rightOperand.includes(".") && !percentSignForRightOperand) {
+			rightOperand += ".";
+		}
+	}
+
+	display();
 });
 
 // LOGIC FOR =
@@ -250,7 +284,7 @@ toggleSignEl.addEventListener("click", e => {
 		if (rightOperand.endsWith(".")) {
 			rightOperand = removeLast(rightOperand);
 		}
-		// this if below will never happen after functionaly completed
+		// will never have a right operand percent after functionaly completed - to be deleted
 		if (percentSignForRightOperand) {
 			rightOperand = calcPercentage(rightOperand);
 			percentSignForRightOperand = false;
@@ -263,12 +297,12 @@ toggleSignEl.addEventListener("click", e => {
 
 // test data
 const leftOperandOnlyWithoutPercent = () => {
-	leftOperand = "444.";
-	rightOperand = "4";
+	leftOperand = "444";
+	rightOperand = "3";
 	operator = "+";
 	accumulator = "";
 	percentSignForLeftOperand = false;
-	percentSignForRightOperand = false;
+	percentSignForRightOperand = true;
 };
 const leftOperandOnlyWithPercent = () => {
 	leftOperand = "444.";
