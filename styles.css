@@ -12,11 +12,15 @@
 html {
 	font-size: 62.5%; /* This defines what 1rem is. 1rem = 10px;*/
 }
+body {
+	background-color: black;
+	color: rgb(169, 169, 173);
+	position: relative;
+}
 .container {
 	font-family: "Roboto", sans-serif;
 	font-weight: 300;
 	font-size: 1.6rem;
-	color: rgb(169, 169, 173);
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
@@ -110,4 +114,43 @@ span.result {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+.error {
+	font-size: 2rem;
+	background-color: rgb(236, 82, 82);
+	color: white;
+	height: 5rem;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: -5rem;
+	left: 0;
+	width: 100%;
+}
+.show-error-message {
+	display: flex;
+	animation: notify 0.2s linear forwards, removeNotify 0.2s linear 0.4s forwards;
+}
+
+@keyframes notify {
+	0% {
+		top: -5rem;
+		opacity: 0.6;
+	}
+	100% {
+		top: 0;
+		opacity: 1;
+	}
+}
+
+@keyframes removeNotify {
+	0% {
+		top: 0;
+		opacity: 1;
+	}
+	100% {
+		top: -5rem;
+		opacity: 0.6;
+	}
 }

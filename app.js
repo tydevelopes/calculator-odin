@@ -16,6 +16,7 @@ const dotEl = document.querySelector(".dot");
 const calcEl = document.querySelector(".calc");
 const toggleSignEl = document.querySelector(".toggle-sign");
 const percentEl = document.querySelector(".percent");
+const errorEl = document.querySelector(".error");
 
 const testPrint = () => {
 	console.log("leftOperand: ", leftOperand);
@@ -107,7 +108,18 @@ const displayAnswer = () => {
 const display = () => {
 	displayTopLabels();
 	displayAnswer();
-	testPrint();
+};
+
+const showNotification = message => {
+	errorEl.textContent = message;
+	errorEl.classList.add("show-error-message");
+
+	setTimeout(() => {
+		removeNotification();
+	}, 800);
+};
+const removeNotification = () => {
+	errorEl.classList.remove("show-error-message");
 };
 
 // Event Listeners
@@ -115,6 +127,7 @@ const display = () => {
 // LOGIC FOR DIGITS
 digitEls.forEach(digitEl => {
 	digitEl.addEventListener("click", e => {
+		removeNotification();
 		if (isFreshStart()) {
 			leftOperand = e.currentTarget.dataset.digit;
 			display();
@@ -160,8 +173,10 @@ digitEls.forEach(digitEl => {
 // LOGIC FOR OPERATORS
 operatorEls.forEach(operatorEl => {
 	operatorEl.addEventListener("click", e => {
+		removeNotification();
 		if (isFreshStart()) {
 			console.log("need to number before an operator");
+			showNotification("need to number before an operator");
 			return;
 		}
 		if (accumulator) {
@@ -184,6 +199,7 @@ operatorEls.forEach(operatorEl => {
 		if (hasLeftOperandAndOperatorAndRightOperand()) {
 			if (rightOperand * 1 === 0 && operator === "/") {
 				console.log("cannot divide by zero");
+				showNotification("cannot divide by zero");
 				display();
 				return;
 			}
@@ -202,8 +218,10 @@ operatorEls.forEach(operatorEl => {
 
 // LOGIC FOR CLEAR ALL
 clearAllEl.addEventListener("click", e => {
+	removeNotification();
 	if (isFreshStart()) {
 		console.log("Nothing to clear");
+		showNotification("Nothing to clear");
 		return;
 	}
 	reset();
@@ -212,8 +230,10 @@ clearAllEl.addEventListener("click", e => {
 
 // LOGIC FOR CLEAR ENTRY
 clearEntryEl.addEventListener("click", e => {
+	removeNotification();
 	if (isFreshStart()) {
 		console.log("Nothing to clear");
+		showNotification("Nothing to clear");
 		return;
 	}
 	if (hasAccumulatorOnly()) {
@@ -237,8 +257,10 @@ clearEntryEl.addEventListener("click", e => {
 
 // LOGIC FOR %
 percentEl.addEventListener("click", e => {
+	removeNotification();
 	if (isFreshStart()) {
 		console.log("need to number before an operator");
+		showNotification("need to number before an operator");
 		return;
 	}
 	if (accumulator) {
@@ -251,6 +273,7 @@ percentEl.addEventListener("click", e => {
 		}
 		if (percentSignForLeftOperand) {
 			console.log("Percent sign already exist");
+			showNotification("Percent sign already exist");
 			display();
 			return;
 		}
@@ -278,7 +301,7 @@ percentEl.addEventListener("click", e => {
 
 // LOGIC FOR DOT
 dotEl.addEventListener("click", e => {
-	console.log(leftOperand);
+	removeNotification();
 	if (isFreshStart()) {
 		leftOperand = "0.";
 	}
@@ -290,11 +313,13 @@ dotEl.addEventListener("click", e => {
 	if (hasLeftOperandOnly()) {
 		if (leftOperand.includes(".")) {
 			console.log("Decimal point already exist");
+			showNotification("Decimal point already exist");
 			display();
 			return;
 		}
 		if (percentSignForLeftOperand) {
 			console.log("Cannot add decimal point to number with %");
+			showNotification("Cannot add decimal point to number with %");
 			display();
 			return;
 		}
@@ -307,6 +332,7 @@ dotEl.addEventListener("click", e => {
 	}
 	if (rightOperand.includes(".")) {
 		console.log("Decimal point already exist");
+		showNotification("Decimal point already exist");
 		display();
 		return;
 	}
@@ -320,17 +346,21 @@ dotEl.addEventListener("click", e => {
 
 // LOGIC FOR =
 calcEl.addEventListener("click", e => {
+	removeNotification();
 	if (isFreshStart()) {
 		console.log("No values to calculate");
+		showNotification("No values to calculate");
 		return;
 	}
 	if (hasAccumulatorOnly()) {
 		console.log("Needs operands to calculate");
+		showNotification("Needs operands to calculate");
 		display();
 		return;
 	}
 	if (hasLeftOperandAndOperatorOnly()) {
 		console.log("Cannot calculate with right operand missing");
+		showNotification("Cannot calculate with right operand missing");
 		display();
 		return;
 	}
@@ -341,6 +371,7 @@ calcEl.addEventListener("click", e => {
 			percentSignForLeftOperand = false;
 		} else {
 			console.log("cannot perform calculation with only left operand");
+			showNotification("cannot perform calculation with only left operand");
 			display();
 			return;
 		}
@@ -348,6 +379,7 @@ calcEl.addEventListener("click", e => {
 	if (hasLeftOperandAndOperatorAndRightOperand()) {
 		if (rightOperand * 1 === 0 && operator === "/") {
 			console.log("cannot divide by zero");
+			showNotification("cannot divide by zero");
 			display();
 			return;
 		}
@@ -362,7 +394,9 @@ calcEl.addEventListener("click", e => {
 // LOGIC FOR +/-
 toggleSignEl.addEventListener("click", e => {
 	if (isFreshStart()) {
+		removeNotification();
 		console.log("Needs a number to change its sign");
+		showNotification("Needs a number to change its sign");
 		return;
 	}
 	if (accumulator) {
@@ -382,6 +416,7 @@ toggleSignEl.addEventListener("click", e => {
 	}
 	if (hasLeftOperandAndOperatorOnly()) {
 		console.log("cannot change sign of operator");
+		showNotification("cannot change sign of operator");
 		display();
 		return;
 	}
