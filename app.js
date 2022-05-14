@@ -82,11 +82,6 @@ const operate = (operator, leftOperand, rightOperand) => {
 			return multiply(leftOperand, rightOperand).toString();
 			break;
 		case "/":
-			if (rightOperand === 0) {
-				rightOperand = "";
-				console.log("Cannot divide by zero");
-				return;
-			}
 			return divide(leftOperand, rightOperand).toString();
 			break;
 		case "%":
@@ -187,6 +182,11 @@ operatorEls.forEach(operatorEl => {
 			operator = e.currentTarget.dataset.operator;
 		}
 		if (hasLeftOperandAndOperatorAndRightOperand()) {
+			if (rightOperand * 1 === 0 && operator === "/") {
+				console.log("cannot divide by zero");
+				display();
+				return;
+			}
 			if (rightOperand.endsWith(".")) {
 				rightOperand = removeLast(rightOperand);
 			}
@@ -215,6 +215,9 @@ clearEntryEl.addEventListener("click", e => {
 	if (isFreshStart()) {
 		console.log("Nothing to clear");
 		return;
+	}
+	if (hasAccumulatorOnly()) {
+		accumulator = removeLast(accumulator);
 	}
 	if (hasLeftOperandOnly()) {
 		if (percentSignForLeftOperand) {
@@ -343,6 +346,11 @@ calcEl.addEventListener("click", e => {
 		}
 	}
 	if (hasLeftOperandAndOperatorAndRightOperand()) {
+		if (rightOperand * 1 === 0 && operator === "/") {
+			console.log("cannot divide by zero");
+			display();
+			return;
+		}
 		accumulator = operate(operator, Number(leftOperand), Number(rightOperand));
 		leftOperand = "";
 		rightOperand = "";
