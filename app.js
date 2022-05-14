@@ -4,7 +4,6 @@ let rightOperand = "";
 let operator = "";
 let accumulator = "";
 let percentSignForLeftOperand = false;
-let percentSignForRightOperand = false;
 
 // References to html elements
 const topDisplayEl = document.querySelector(".displays .row-1");
@@ -24,7 +23,6 @@ const testPrint = () => {
 	console.log("operator: ", operator);
 	console.log("accumulator: ", accumulator);
 	console.log("percentSignForLeftOperand: ", percentSignForLeftOperand);
-	console.log("percentSignForRightOperand: ", percentSignForRightOperand);
 };
 
 // Functions
@@ -34,19 +32,15 @@ const reset = () => {
 	operator = "";
 	accumulator = "";
 	percentSignForLeftOperand = false;
-	percentSignForRightOperand = false;
 };
 
 // check if all variables are in their initial state
 const isFreshStart = () => {
-	return (
-		!leftOperand &&
-		!rightOperand &&
-		!operator &&
-		!accumulator &&
-		!percentSignForLeftOperand &&
-		!percentSignForRightOperand
-	);
+	return !leftOperand && !rightOperand && !operator && !accumulator && !percentSignForLeftOperand;
+};
+
+const hasAccumulatorOnly = () => {
+	return !leftOperand && !rightOperand && !operator && accumulator;
 };
 
 const hasLeftOperandOnly = () => {
@@ -90,7 +84,8 @@ const operate = (operator, leftOperand, rightOperand) => {
 		case "/":
 			if (rightOperand === 0) {
 				rightOperand = "";
-				return "Cannot divide by zero";
+				console.log("Cannot divide by zero");
+				return;
 			}
 			return divide(leftOperand, rightOperand).toString();
 			break;
@@ -107,9 +102,7 @@ const calcPercentage = operand => {
 };
 
 const displayTopLabels = () => {
-	topDisplayEl.textContent = `${leftOperand} ${percentSignForLeftOperand ? "%" : ""} ${operator} ${rightOperand} ${
-		percentSignForRightOperand ? "%" : ""
-	}`;
+	topDisplayEl.textContent = `${leftOperand} ${percentSignForLeftOperand ? "%" : ""} ${operator} ${rightOperand}`;
 };
 
 const displayAnswer = () => {
@@ -133,7 +126,6 @@ digitEls.forEach(digitEl => {
 			return;
 		}
 		if (accumulator) {
-			// leftOperand = accumulator;
 			accumulator = "";
 			leftOperand = e.currentTarget.dataset.digit;
 			display();
@@ -166,7 +158,6 @@ digitEls.forEach(digitEl => {
 				rightOperand += e.currentTarget.dataset.digit;
 			}
 		}
-
 		display();
 	});
 });
@@ -199,18 +190,12 @@ operatorEls.forEach(operatorEl => {
 			if (rightOperand.endsWith(".")) {
 				rightOperand = removeLast(rightOperand);
 			}
-			// will never have a right operand percent after functionaly completed - to be deleted
-			if (percentSignForRightOperand) {
-				rightOperand = calcPercentage(rightOperand);
-				percentSignForRightOperand = false;
-			}
 			accumulator = operate(operator, Number(leftOperand), Number(rightOperand));
 			leftOperand = accumulator;
 			rightOperand = "";
 			operator = e.currentTarget.dataset.operator;
 			accumulator = "";
 		}
-
 		display();
 	});
 });
@@ -242,11 +227,7 @@ clearEntryEl.addEventListener("click", e => {
 		operator = removeLast(operator);
 	}
 	if (hasLeftOperandAndOperatorAndRightOperand()) {
-		if (percentSignForRightOperand) {
-			percentSignForRightOperand = false;
-		} else {
-			rightOperand = removeLast(rightOperand);
-		}
+		rightOperand = removeLast(rightOperand);
 	}
 	display();
 });
@@ -279,11 +260,6 @@ percentEl.addEventListener("click", e => {
 		// return;
 	}
 	if (hasLeftOperandAndOperatorAndRightOperand()) {
-		if (percentSignForRightOperand) {
-			console.log("Percent sign already exist");
-			display();
-			return;
-		}
 		if (rightOperand.endsWith(".")) {
 			rightOperand = removeLast(rightOperand);
 		}
@@ -326,23 +302,16 @@ dotEl.addEventListener("click", e => {
 	if (hasLeftOperandAndOperatorOnly()) {
 		rightOperand = "0.";
 	}
-	// will never have a right operand percent after functionaly completed - to be deleted
 	if (rightOperand.includes(".")) {
 		console.log("Decimal point already exist");
 		display();
 		return;
 	}
-	if (percentSignForRightOperand) {
-		console.log("Cannot add decimal point to number with %");
-		display();
-		return;
-	}
 	if (hasLeftOperandAndOperatorAndRightOperand()) {
-		if (!rightOperand.includes(".") && !percentSignForRightOperand) {
+		if (!rightOperand.includes(".")) {
 			rightOperand += ".";
 		}
 	}
-
 	display();
 });
 
@@ -350,6 +319,11 @@ dotEl.addEventListener("click", e => {
 calcEl.addEventListener("click", e => {
 	if (isFreshStart()) {
 		console.log("No values to calculate");
+		return;
+	}
+	if (hasAccumulatorOnly()) {
+		console.log("Needs operands to calculate");
+		display();
 		return;
 	}
 	if (hasLeftOperandAndOperatorOnly()) {
@@ -361,7 +335,6 @@ calcEl.addEventListener("click", e => {
 		if (percentSignForLeftOperand) {
 			accumulator = calcPercentage(leftOperand);
 			leftOperand = "";
-			// leftOperand = accumulator;
 			percentSignForLeftOperand = false;
 		} else {
 			console.log("cannot perform calculation with only left operand");
@@ -370,24 +343,18 @@ calcEl.addEventListener("click", e => {
 		}
 	}
 	if (hasLeftOperandAndOperatorAndRightOperand()) {
-		// will never have a right operand percent after functionaly completed - to be deleted
-		if (percentSignForRightOperand) {
-			rightOperand = calcPercentage(rightOperand);
-			percentSignForRightOperand = false;
-		}
 		accumulator = operate(operator, Number(leftOperand), Number(rightOperand));
 		leftOperand = "";
 		rightOperand = "";
 		operator = "";
 	}
-
 	display();
 });
 
 // LOGIC FOR +/-
 toggleSignEl.addEventListener("click", e => {
 	if (isFreshStart()) {
-		console.log("Nothing to clear");
+		console.log("Needs a number to change its sign");
 		return;
 	}
 	if (accumulator) {
@@ -414,14 +381,8 @@ toggleSignEl.addEventListener("click", e => {
 		if (rightOperand.endsWith(".")) {
 			rightOperand = removeLast(rightOperand);
 		}
-		// will never have a right operand percent after functionaly completed - to be deleted
-		if (percentSignForRightOperand) {
-			rightOperand = calcPercentage(rightOperand);
-			percentSignForRightOperand = false;
-		}
 		rightOperand = toggleSign(rightOperand);
 	}
-
 	display();
 });
 
