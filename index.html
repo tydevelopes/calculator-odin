@@ -4,47 +4,57 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script src="https://kit.fontawesome.com/5779bd7568.js" crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="styles.css" />
 		<title>Calculator</title>
 	</head>
 	<body>
 		<div class="container">
-			<div class="displays">
-				<div class="row row-1"></div>
-				<div class="row row-2">0</div>
+			<ul class="nav">
+				<li class="nav-item">tydevelopes</li>
+				<li class="nav-item">
+					<a href="https://github.com/tydevelopes" target="_blank"><i class="fa-brands fa-github"></i></a>
+				</li>
+			</ul>
+			<div class="calc-container">
+				<div class="displays">
+					<div class="row row-1"></div>
+					<div class="row row-2">0</div>
+				</div>
+				<div class="keys">
+					<div class="row row-1">
+						<span class="clear-all" data-clearall="C">C</span>
+						<span class="clear-entry" data-clearentry="CE">CE</span>
+						<span class="percent" data-percent="%">%</span>
+						<span class="operator" data-operator="/">/</span>
+					</div>
+					<div class="row row-2">
+						<span class="digit" data-digit="7">7</span>
+						<span class="digit" data-digit="8">8</span>
+						<span class="digit" data-digit="9">9</span>
+						<span class="operator" data-operator="*">*</span>
+					</div>
+					<div class="row row-3">
+						<span class="digit" data-digit="4">4</span>
+						<span class="digit" data-digit="5">5</span>
+						<span class="digit" data-digit="6">6</span>
+						<span class="operator" data-operator="-">-</span>
+					</div>
+					<div class="row row-4">
+						<span class="digit" data-digit="1">1</span>
+						<span class="digit" data-digit="2">2</span>
+						<span class="digit" data-digit="3">3</span>
+						<span class="operator" data-operator="+">+</span>
+					</div>
+					<div class="row row-5">
+						<span class="toggle-sign" data-togglesign="+/-">+/-</span>
+						<span class="digit" data-digit="0">0</span>
+						<span class="dot" data-dot=".">.</span>
+						<span class="calc" data-calc="=">=</span>
+					</div>
+				</div>
 			</div>
-			<div class="keys">
-				<div class="row row-1">
-					<span class="clear-all" data-clearall="C">C</span>
-					<span class="clear-entry" data-clearentry="CE">CE</span>
-					<span class="percent" data-percent="%">%</span>
-					<span class="operator" data-operator="/">/</span>
-				</div>
-				<div class="row row-2">
-					<span class="digit" data-digit="7">7</span>
-					<span class="digit" data-digit="8">8</span>
-					<span class="digit" data-digit="9">9</span>
-					<span class="operator" data-operator="*">*</span>
-				</div>
-				<div class="row row-3">
-					<span class="digit" data-digit="4">4</span>
-					<span class="digit" data-digit="5">5</span>
-					<span class="digit" data-digit="6">6</span>
-					<span class="operator" data-operator="-">-</span>
-				</div>
-				<div class="row row-4">
-					<span class="digit" data-digit="1">1</span>
-					<span class="digit" data-digit="2">2</span>
-					<span class="digit" data-digit="3">3</span>
-					<span class="operator" data-operator="+">+</span>
-				</div>
-				<div class="row row-5">
-					<span class="toggle-sign" data-togglesign="+/-">+/-</span>
-					<span class="digit" data-digit="0">0</span>
-					<span class="dot" data-dot=".">.</span>
-					<span class="calc" data-calc="=">=</span>
-				</div>
-			</div>
+			<footer class="footer">&copy 2018 by Emmanuel</footer>
 		</div>
 		<script src="app.js"></script>
 	</body>
