@@ -207,6 +207,10 @@ operatorEls.forEach(operatorEl => {
 				rightOperand = removeLast(rightOperand);
 			}
 			accumulator = operate(operator, Number(leftOperand), Number(rightOperand));
+			// truncate if digits after decimal are more than 5
+			if (!Number.isInteger(Number(accumulator)) && accumulator.length > 6) {
+				accumulator = accumulator.slice(0, 7);
+			}
 			leftOperand = accumulator;
 			rightOperand = "";
 			operator = e.currentTarget.dataset.operator;
@@ -384,6 +388,10 @@ calcEl.addEventListener("click", e => {
 			return;
 		}
 		accumulator = operate(operator, Number(leftOperand), Number(rightOperand));
+		// truncate if digits after decimal are more than 5
+		if (!Number.isInteger(Number(accumulator)) && accumulator.length > 6) {
+			accumulator = accumulator.slice(0, 7);
+		}
 		leftOperand = "";
 		rightOperand = "";
 		operator = "";
